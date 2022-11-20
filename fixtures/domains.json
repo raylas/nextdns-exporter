@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "domain": "metrics.icloud.com",
+      "root": "icloud.com",
+      "queries": 15005
+    },
+    {
+      "domain": "app-measurement.com",
+      "queries": 3922
+    },
+    {
+      "domain": "notify.bugsnag.com",
+      "root": "bugsnag.com",
+      "tracker": "bugsnag",
+      "queries": 3760
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "cursor": "64r0"
+    }
+  }
+}
