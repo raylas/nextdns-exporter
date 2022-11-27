@@ -1,0 +1,28 @@
+services:
+  nextdns-exporter:
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+    - 9948:9948
+    environment:
+      NEXTDNS_PROFILE: ${NEXTDNS_PROFILE}
+      NEXTDNS_API_KEY: ${NEXTDNS_API_KEY}
+      NEXTDNS_RESULT_WINDOW: -1m
+  
+  prometheus:
+    image: prom/prometheus:v2.40.3
+    restart: unless-stopped
+    ports:
+    - 9090:9090
+    volumes:
+    - ./grafana/prometheus.yaml:/etc/prometheus/prometheus.yml
+  
+  grafana:
+    image: grafana/grafana-oss:9.2.6
+    restart: unless-stopped
+    ports:
+    - 3000:3000
+    volumes:
+    - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+    - ./grafana:/etc/grafana/provisioning

@@ -9,27 +9,34 @@ import (
 	"testing"
 )
 
-func TestCollectStatus(t *testing.T) {
-	expected := &StatusMetrics{
-		TotalQueries:   1587523,
-		AllowedQueries: 478,
-		BlockedQueries: 80343,
+func TestCollectEncryption(t *testing.T) {
+	expected := &EncryptionMetrics{
+		Data: []EncryptionMetric{
+			{
+				Encrypted: "true",
+				Queries:   48058,
+			},
+			{
+				Encrypted: "false",
+				Queries:   1629,
+			},
+		},
 	}
 
-	status, err := os.ReadFile("../../fixtures/status.json")
+	ipVersions, err := os.ReadFile("../../fixtures/encryption.json")
 	if err != nil {
 		t.Errorf("error reading file: %v", err)
 	}
 
 	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, string(status))
+		fmt.Fprint(w, string(ipVersions))
 	}))
 	defer svr.Close()
 
 	c := NewClient(svr.URL, "profile", "apikey")
-	res, err := c.CollectStatus()
+	res, err := c.CollectEncryption()
 	if err != nil {
-		t.Errorf("error collecting status data: %v", err)
+		t.Errorf("error collecting encryption data: %v", err)
 	}
 
 	if !reflect.DeepEqual(res, expected) {

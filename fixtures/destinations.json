@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "code": "US",
+      "name": "United States of America",
+      "domains": [
+        "weather-data.apple.com",
+        "gateway.icloud.com",
+        "mobile.events.data.microsoft.com",
+        "ocsp2.apple.com"
+      ],
+      "queries": 137
+    },
+    {
+      "code": "DE",
+      "name": "Germany",
+      "domains": [
+        "controlplane.tailscale.com"
+      ],
+      "queries": 2
+    },
+    {
+      "code": "FR",
+      "name": "France",
+      "domains": [
+        "mobile.events.data.microsoft.com"
+      ],
+      "queries": 1
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "cursor": null
+    }
+  }
+}

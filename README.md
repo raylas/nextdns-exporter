@@ -12,8 +12,12 @@ A [Prometheus exporter](https://prometheus.io/docs/instrumenting/exporters/) for
 - `METRICS_PATH` (default: `/metrics`)
 - `NEXTDNS_PROFILE` (required: [docs](https://nextdns.github.io/api/#profile))
 - `NEXTDNS_API_KEY` (required: [docs](https://nextdns.github.io/api/#authentication))
-- `NEXTDNS_FILTER_FROM` (default: `-1d`)
+- `NEXTDNS_RESULT_WINDOW` (default: `-5m`)
 - `NEXTDNS_RESULT_LIMIT` (default: `50`)
+
+For most accurate data, the scrape interval _should_ match the value set via `NEXTDNS_RESULT_WINDOW`.
+
+Recommended timeout is `10` seconds.
 
 ## Usage
 
@@ -36,3 +40,22 @@ docker run -d \
   -e NEXTDNS_API_KEY=<api_key> \
   ghcr.io/raylas/nextdns-exporter
 ```
+
+### Compose
+
+The following will create a local stack of the exporter, Prometheus, and Grafana:
+```sh
+NEXDTDNS_PROFILE=<profile_id> \
+NEXTDNS_API_KEY=<api_key> \
+docker-compose up -d
+```
+
+Access Grafana by navigating to [http://localhost:3000](http://localhost:3000).
+
+**Note:** Data will take a few minutes to trickle in.
+
+## Dashboard
+
+A basic Grafana dashboard is found [here](/grafana/dashboards/nextdns.json).
+
+![Grafana dashboard](/grafana/dashboards/nextdns.png)
