@@ -1,6 +1,6 @@
 # nextdns-exporter
 
-[![Main](https://github.com/raylas/nextdns-exporter/actions/workflows/main.yml/badge.svg)](https://github.com/raylas/nextdns-exporter/actions/workflows/main.yml)
+[![Main](https://github.com/raylas/nextdns-exporter/actions/workflows/main.yaml/badge.svg)](https://github.com/raylas/nextdns-exporter/actions/workflows/main.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/raylas/nextdns-exporter)](https://goreportcard.com/report/github.com/raylas/nextdns-exporter)
 
 A [Prometheus exporter](https://prometheus.io/docs/instrumenting/exporters/) for [NextDNS data](https://nextdns.github.io/api/#analytics).
