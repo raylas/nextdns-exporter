@@ -9,27 +9,34 @@ import (
 	"testing"
 )
 
-func TestCollectStatus(t *testing.T) {
-	expected := &StatusMetrics{
-		TotalQueries:   1587523,
-		AllowedQueries: 478,
-		BlockedQueries: 80343,
+func TestCollectIPVersions(t *testing.T) {
+	expected := &IPVersionsMetrics{
+		IPVersions: []IPVersionMetric{
+			{
+				Version: "4",
+				Queries: 392,
+			},
+			{
+				Version: "6",
+				Queries: 10,
+			},
+		},
 	}
 
-	status, err := os.ReadFile("../../fixtures/status.json")
+	ipVersions, err := os.ReadFile("../../fixtures/ip_versions.json")
 	if err != nil {
 		t.Errorf("error reading file: %v", err)
 	}
 
 	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, string(status))
+		fmt.Fprint(w, string(ipVersions))
 	}))
 	defer svr.Close()
 
 	c := NewClient(svr.URL, "profile", "apikey")
-	res, err := c.CollectStatus()
+	res, err := c.CollectIPVersions()
 	if err != nil {
-		t.Errorf("error collecting status data: %v", err)
+		t.Errorf("error collecting IP versions data: %v", err)
 	}
 
 	if !reflect.DeepEqual(res, expected) {

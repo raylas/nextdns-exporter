@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "version": 4,
+      "queries": 392
+    },
+    {
+      "version": 6,
+      "queries": 10
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "cursor": null
+    }
+  }
+}

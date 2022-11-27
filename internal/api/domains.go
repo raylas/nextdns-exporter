@@ -3,8 +3,6 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 	"net/url"
 
 	"github.com/raylas/nextdns-exporter/internal/util"
@@ -32,33 +30,19 @@ type DomainMetric struct {
 	Queries float64
 }
 
-func (c Client) CollectDomains(profile, apiKey string) (*DomainsMetrics, error) {
-	domainsURL := fmt.Sprintf("%s/profiles/%s/analytics/domains", c.url, profile)
+func (c Client) CollectDomains() (*DomainsMetrics, error) {
+	domainsURL := fmt.Sprintf("%s/profiles/%s/analytics/domains", c.url, c.profile)
 
 	domainsResponse := DomainsResponse{}
 	metrics := DomainsMetrics{}
 
-	req, err := http.NewRequest("GET", domainsURL, nil)
-	if err != nil {
-		util.Log.Error("error creating request", "error", err)
-		return nil, err
-	}
-	req.Header.Set("X-Api-Key", apiKey)
-	req.URL.RawQuery = url.Values{
-		"from":   {util.FilterFrom},
-		"limit":  {util.ResultLimit},
+	params := url.Values{
 		"status": {"blocked"},
-	}.Encode()
+	}
 
-	res, err := http.DefaultClient.Do(req)
+	body, err := c.Request(domainsURL, params)
 	if err != nil {
 		util.Log.Error("error making request", "error", err)
-		return nil, err
-	}
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		util.Log.Error("error reading response body", "error", err)
 		return nil, err
 	}
 

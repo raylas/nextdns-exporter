@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"runtime/debug"
 
 	"github.com/hashicorp/go-hclog"
 )
@@ -12,13 +13,14 @@ const (
 )
 
 var (
-	Log         hclog.Logger
-	Port        string
-	MetricsPath string
-	Profile     string
-	APIKey      string
-	FilterFrom  string
-	ResultLimit string
+	Log          hclog.Logger
+	Version      string
+	Port         string
+	MetricsPath  string
+	Profile      string
+	APIKey       string
+	ResultWindow string
+	ResultLimit  string
 )
 
 // Initialize the configuration.
@@ -29,11 +31,18 @@ func init() {
 		Level: hclog.LevelFromString(level),
 	})
 
+	// Retrieve version.
+	if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
+		Version = info.Main.Version
+	} else {
+		Version = "dev"
+	}
+
 	// Set up exporter.
 	Port = fmt.Sprintf(":%s", GetEnv("METRICS_PORT", "9948"))
 	MetricsPath = GetEnv("METRICS_PATH", "/metrics")
 	Profile = GetEnv("NEXTDNS_PROFILE", "")
 	APIKey = GetEnv("NEXTDNS_API_KEY", "")
-	FilterFrom = GetEnv("NEXTDNS_FILTER_FROM", "-1d")
+	ResultWindow = GetEnv("NEXTDNS_RESULT_WINDOW", "-5m")
 	ResultLimit = GetEnv("NEXTDNS_RESULT_LIMIT", "50")
 }

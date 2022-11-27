@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "encrypted": true,
+      "queries": 48058
+    },
+    {
+      "encrypted": false,
+      "queries": 1629
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "cursor": null
+    }
+  }
+}

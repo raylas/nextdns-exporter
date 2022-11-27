@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "type": 1,
+      "name": "A",
+      "queries": 207
+    },
+    {
+      "type": 28,
+      "name": "AAAA",
+      "queries": 199
+    },
+    {
+      "type": 65,
+      "name": "HTTPS",
+      "queries": 87
+    },
+    {
+      "type": 12,
+      "name": "PTR",
+      "queries": 11
+    },
+    {
+      "type": 16,
+      "name": "TXT",
+      "queries": 5
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "cursor": null
+    }
+  }
+}

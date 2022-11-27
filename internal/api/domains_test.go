@@ -40,10 +40,10 @@ func TestCollectDomains(t *testing.T) {
 	}))
 	defer svr.Close()
 
-	c := NewClient(svr.URL)
-	res, err := c.CollectDomains("profile", "apikey")
+	c := NewClient(svr.URL, "profile", "apikey")
+	res, err := c.CollectDomains()
 	if err != nil {
-		t.Errorf("error collecting domains: %v", err)
+		t.Errorf("error collecting domains data: %v", err)
 	}
 
 	if !reflect.DeepEqual(res, expected) {

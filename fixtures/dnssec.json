@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "validated": false,
+      "queries": 183
+    },
+    {
+      "validated": true,
+      "queries": 4
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "cursor": null
+    }
+  }
+}

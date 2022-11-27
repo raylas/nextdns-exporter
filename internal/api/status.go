@@ -3,9 +3,6 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
-	"net/url"
 
 	"github.com/raylas/nextdns-exporter/internal/util"
 )
@@ -25,31 +22,15 @@ type StatusMetrics struct {
 	BlockedQueries float64
 }
 
-func (c Client) CollectStatus(profile, apiKey string) (*StatusMetrics, error) {
-	statusesURL := fmt.Sprintf("%s/profiles/%s/analytics/status", c.url, profile)
+func (c Client) CollectStatus() (*StatusMetrics, error) {
+	statusesURL := fmt.Sprintf("%s/profiles/%s/analytics/status", c.url, c.profile)
 
 	statusResponse := StatusResponse{}
 	metrics := StatusMetrics{}
 
-	req, err := http.NewRequest("GET", statusesURL, nil)
-	if err != nil {
-		util.Log.Error("error creating request", "error", err)
-		return nil, err
-	}
-	req.Header.Set("X-Api-Key", apiKey)
-	req.URL.RawQuery = url.Values{
-		"from": {util.FilterFrom},
-	}.Encode()
-
-	res, err := http.DefaultClient.Do(req)
+	body, err := c.Request(statusesURL, nil)
 	if err != nil {
 		util.Log.Error("error making request", "error", err)
-		return nil, err
-	}
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		util.Log.Error("error reading response body", "error", err)
 		return nil, err
 	}
 
