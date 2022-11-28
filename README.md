@@ -10,14 +10,14 @@ A [Prometheus exporter](https://prometheus.io/docs/instrumenting/exporters/) for
 - `LOG_LEVEL` (default: `INFO`)
 - `METRICS_PORT` (default: `9948`)
 - `METRICS_PATH` (default: `/metrics`)
-- `NEXTDNS_PROFILE` (required: [docs](https://nextdns.github.io/api/#profile))
-- `NEXTDNS_API_KEY` (required: [docs](https://nextdns.github.io/api/#authentication))
 - `NEXTDNS_RESULT_WINDOW` (default: `-5m`)
 - `NEXTDNS_RESULT_LIMIT` (default: `50`)
+- `NEXTDNS_PROFILE` (required: [docs](https://nextdns.github.io/api/#profile))
+- `NEXTDNS_API_KEY` (required: [docs](https://nextdns.github.io/api/#authentication))
 
 For most accurate data, the scrape interval _should_ match the value set via `NEXTDNS_RESULT_WINDOW`.
 
-Recommended timeout is `10` seconds.
+Recommended scrape timeout is `10` seconds.
 
 ## Usage
 

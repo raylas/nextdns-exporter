@@ -16,10 +16,10 @@ var (
 	Log          hclog.Logger
 	Port         string
 	MetricsPath  string
-	Profile      string
-	APIKey       string
 	ResultWindow string
 	ResultLimit  string
+	Profile      string
+	APIKey       string
 )
 
 // Initialize the configuration.
