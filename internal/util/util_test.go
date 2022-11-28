@@ -5,13 +5,13 @@ import (
 	"testing"
 )
 
-func TestGetEnv(t *testing.T) {
+func TestDefaultEnv(t *testing.T) {
 	os.Setenv("FOO", "bar")
 
-	if GetEnv("FOO", "baz") != "bar" {
+	if DefaultEnv("FOO", "baz") != "bar" {
 		t.Error("expected to get `bar`")
 	}
-	if GetEnv("BAR", "baz") != "baz" {
+	if DefaultEnv("BAR", "baz") != "baz" {
 		t.Error("expected to get `baz`")
 	}
 }

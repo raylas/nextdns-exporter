@@ -112,7 +112,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "nextdns_queries_total",
+          "expr": "nextdns_queries_total{profile=\"$profile\"}",
           "legendFormat": "All",
           "range": true,
           "refId": "all"
@@ -176,8 +176,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "builder",
-          "expr": "nextdns_blocked_queries",
+          "editorMode": "code",
+          "expr": "nextdns_blocked_queries{profile=\"$profile\"}",
           "legendFormat": "{{domain}}",
           "range": true,
           "refId": "domains"
@@ -240,8 +240,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "builder",
-          "expr": "nextdns_device_queries",
+          "editorMode": "code",
+          "expr": "nextdns_device_queries{profile=\"$profile\"}",
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "devices"
@@ -306,7 +306,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(increase(nextdns_blocked_queries_total[$__range]))",
+          "expr": "sum(increase(nextdns_blocked_queries_total{profile=\"$profile\"}[$__range]))",
           "hide": true,
           "legendFormat": "Blocked",
           "range": true,
@@ -318,7 +318,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(increase(nextdns_queries_total[$__range]))",
+          "expr": "sum(increase(nextdns_queries_total{profile=\"$profile\"}[$__range]))",
           "hide": true,
           "legendFormat": "Total",
           "range": true,
@@ -419,7 +419,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(increase(nextdns_queries_total[$__range]))",
+          "expr": "sum(increase(nextdns_queries_total{profile=\"$profile\"}[$__range]))",
           "hide": false,
           "legendFormat": "Total",
           "range": true,
@@ -511,8 +511,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "builder",
-          "expr": "nextdns_type_queries",
+          "editorMode": "code",
+          "expr": "nextdns_type_queries{profile=\"$profile\"}",
           "legendFormat": "{{name}}",
           "range": true,
           "refId": "types"
@@ -605,7 +605,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "nextdns_blocked_queries_total",
+          "expr": "nextdns_blocked_queries_total{profile=\"$profile\"}",
           "legendFormat": "Blocked",
           "range": true,
           "refId": "blocked"
@@ -697,7 +697,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "nextdns_ip_version_queries",
+          "expr": "nextdns_ip_version_queries{profile=\"$profile\"}",
           "legendFormat": "IPv{{version}}",
           "range": true,
           "refId": "ip_versions"
@@ -720,6 +720,10 @@
           "text": "e6e9b2",
           "value": "e6e9b2"
         },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
         "definition": "label_values(profile)",
         "hide": 0,
         "includeAll": false,
@@ -739,7 +743,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
