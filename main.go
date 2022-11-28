@@ -10,6 +10,8 @@ import (
 	"github.com/raylas/nextdns-exporter/internal/util"
 )
 
+var version = "dev" // Set by goreleaser.
+
 type exporter struct {
 	profile, apiKey string
 
@@ -235,7 +237,7 @@ func main() {
 	exporter := newExporter(util.Profile, util.APIKey)
 	prometheus.MustRegister(exporter)
 
-	util.Log.Info("starting exporter", "version", util.Version, "port", util.Port, "path", util.MetricsPath)
+	util.Log.Info("starting exporter", "version", version, "port", util.Port, "path", util.MetricsPath)
 	http.Handle(util.MetricsPath, promhttp.Handler())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, util.MetricsPath, http.StatusMovedPermanently)

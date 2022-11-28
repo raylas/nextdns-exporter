@@ -12,11 +12,8 @@ const (
 	BaseURL   = "https://api.nextdns.io"
 )
 
-var version = "dev" // Set by goreleaser.
-
 var (
 	Log          hclog.Logger
-	Version      string
 	Port         string
 	MetricsPath  string
 	Profile      string
@@ -32,9 +29,6 @@ func init() {
 	Log = hclog.New(&hclog.LoggerOptions{
 		Level: hclog.LevelFromString(level),
 	})
-
-	// Set version.
-	Version = version
 
 	// Retrieve configuration, or use defaults.
 	Port = fmt.Sprintf(":%s", DefaultEnv("METRICS_PORT", "9948"))
