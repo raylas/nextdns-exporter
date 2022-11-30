@@ -26,12 +26,12 @@
   "graphTooltip": 0,
   "id": 2,
   "links": [],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -40,8 +40,6 @@
             "mode": "fixed"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -109,7 +107,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "nextdns_queries_total{profile=\"$profile\"}",
@@ -124,7 +122,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${source}"
       },
       "description": "",
       "fieldConfig": {
@@ -174,11 +172,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "nextdns_blocked_queries{profile=\"$profile\"}",
-          "legendFormat": "{{domain}}",
+          "legendFormat": "{{root}}",
           "range": true,
           "refId": "domains"
         }
@@ -189,7 +187,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${source}"
       },
       "description": "",
       "fieldConfig": {
@@ -238,7 +236,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "nextdns_device_queries{profile=\"$profile\"}",
@@ -253,7 +251,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -298,12 +296,12 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": false
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.0.2",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "sum(increase(nextdns_blocked_queries_total{profile=\"$profile\"}[$__range]))",
@@ -315,7 +313,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "sum(increase(nextdns_queries_total{profile=\"$profile\"}[$__range]))",
@@ -364,7 +362,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -411,12 +409,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.0.2",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "sum(increase(nextdns_queries_total{profile=\"$profile\"}[$__range]))",
@@ -432,7 +430,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -440,8 +438,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -509,7 +505,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "nextdns_type_queries{profile=\"$profile\"}",
@@ -524,7 +520,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -533,8 +529,6 @@
             "mode": "fixed"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -602,7 +596,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "nextdns_blocked_queries_total{profile=\"$profile\"}",
@@ -617,7 +611,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -625,8 +619,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -694,7 +686,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${source}"
           },
           "editorMode": "code",
           "expr": "nextdns_ip_version_queries{profile=\"$profile\"}",
@@ -707,7 +699,7 @@
       "type": "timeseries"
     }
   ],
-  "schemaVersion": 37,
+  "schemaVersion": 36,
   "style": "dark",
   "tags": [
     "nextdns"
@@ -717,14 +709,29 @@
       {
         "current": {
           "selected": true,
-          "text": "e6e9b2",
-          "value": "e6e9b2"
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "source",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": false
         },
         "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "type": "prometheus"
         },
-        "definition": "label_values(profile)",
+        "definition": "",
         "hide": 0,
         "includeAll": false,
         "multi": false,
@@ -743,13 +750,13 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "NextDNS",
   "uid": "MwiWGgFVz",
-  "version": 5,
+  "version": 12,
   "weekStart": ""
 }
