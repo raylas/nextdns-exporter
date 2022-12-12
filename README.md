@@ -36,7 +36,7 @@ export NEXTDNS_API_KEY=<api_key>
 ```sh
 docker run -d \
   -p 9948:9948 \
-  -e NEXDTDNS_PROFILE=<profile_id> \
+  -e NEXTDNS_PROFILE=<profile_id> \
   -e NEXTDNS_API_KEY=<api_key> \
   ghcr.io/raylas/nextdns-exporter
 ```
@@ -45,7 +45,7 @@ docker run -d \
 
 The following will create a local stack of the exporter, Prometheus, and Grafana:
 ```sh
-NEXDTDNS_PROFILE=<profile_id> \
+NEXTDNS_PROFILE=<profile_id> \
 NEXTDNS_API_KEY=<api_key> \
 docker-compose up -d
 ```
