@@ -2,7 +2,7 @@ module github.com/raylas/nextdns-exporter
 
 go 1.19
 
-require github.com/hashicorp/go-hclog v1.3.1
+require github.com/hashicorp/go-hclog v1.4.0
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
