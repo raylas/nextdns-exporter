@@ -53,6 +53,11 @@ func (c Client) CollectDomains() (*DomainsMetrics, error) {
 	}
 
 	for _, domain := range domainsResponse.Domains {
+		// Some entries appear not to have a root, in which case replicate the domain.
+		// https://github.com/raylas/nextdns-exporter/issues/20
+		if len(domain.Root) == 0 {
+			domain.Root = domain.Domain
+		}
 		domain := DomainMetric{
 			Domain:  domain.Domain,
 			Root:    domain.Root,

@@ -19,6 +19,7 @@ func TestCollectDomains(t *testing.T) {
 			},
 			{
 				Domain:  "app-measurement.com",
+				Root:    "app-measurement.com",
 				Queries: 3922,
 			},
 			{
