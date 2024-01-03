@@ -1,6 +1,6 @@
 module github.com/raylas/nextdns-exporter
 
-go 1.19
+go 1.21
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -9,7 +9,7 @@ require (
 	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.45.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
+	google.golang.org/protobuf v1.32.0 // indirect
 )
 
 require (
