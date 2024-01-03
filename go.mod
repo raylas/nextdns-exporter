@@ -14,5 +14,6 @@ require (
 
 require (
 	github.com/prometheus/client_golang v1.18.0
+	golang.org/x/exp v0.0.0-20240103183307-be819d1f06fc
 	golang.org/x/sys v0.15.0 // indirect
 )

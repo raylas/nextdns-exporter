@@ -2,8 +2,9 @@ package util
 
 import (
 	"fmt"
-	"log/slog"
 	"os"
+
+	"golang.org/x/exp/slog"
 )
 
 const (
