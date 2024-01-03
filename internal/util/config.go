@@ -2,9 +2,8 @@ package util
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
-
-	"github.com/hashicorp/go-hclog"
 )
 
 const (
@@ -13,7 +12,8 @@ const (
 )
 
 var (
-	Log          hclog.Logger
+	Log          *slog.Logger
+	Level        slog.Level
 	Port         string
 	MetricsPath  string
 	ResultWindow string
@@ -26,9 +26,20 @@ var (
 func init() {
 	// Set up logging.
 	level := DefaultEnv("LOG_LEVEL", "INFO")
-	Log = hclog.New(&hclog.LoggerOptions{
-		Level: hclog.LevelFromString(level),
-	})
+	switch level {
+	case "DEBUG":
+		Level = slog.LevelDebug
+	case "INFO":
+		Level = slog.LevelInfo
+	case "WARN":
+		Level = slog.LevelWarn
+	case "ERROR":
+		Level = slog.LevelError
+	}
+
+	Log = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: Level,
+	}))
 
 	// Retrieve configuration, or use defaults.
 	Port = fmt.Sprintf(":%s", DefaultEnv("METRICS_PORT", "9948"))
