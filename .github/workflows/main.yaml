@@ -54,7 +54,7 @@ jobs:
       run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
     - name: Release
-      uses: goreleaser/goreleaser-action@v5
+      uses: goreleaser/goreleaser-action@v6
       with:
         distribution: goreleaser
         version: latest
