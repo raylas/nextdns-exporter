@@ -49,15 +49,15 @@ func init() {
 	ResultLimit = DefaultEnv("NEXTDNS_RESULT_LIMIT", "50")
 
 	// Required configuration.
-	var set bool
-	Profile, set = os.LookupEnv("NEXTDNS_PROFILE")
-	if !set {
-		Log.Error("NEXTDNS_PROFILE must be set")
+	var err error
+	Profile, err = initSecret("NEXTDNS_PROFILE")
+	if err != nil {
+		Log.Error(err.Error())
 		os.Exit(1)
 	}
-	APIKey, set = os.LookupEnv("NEXTDNS_API_KEY")
-	if !set {
-		Log.Error("NEXTDNS_API_KEY must be set")
+	APIKey, err = initSecret("NEXTDNS_API_KEY")
+	if err != nil {
+		Log.Error(err.Error())
 		os.Exit(1)
 	}
 }
