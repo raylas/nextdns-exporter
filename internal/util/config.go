@@ -52,28 +52,12 @@ func init() {
 	var err error
 	Profile, err = initSecret("NEXTDNS_PROFILE")
 	if err != nil {
-		Log.Error(err)
+		Log.Error(err.Error())
 		os.Exit(1)
 	}
 	APIKey, err = initSecret("NEXTDNS_API_KEY")
 	if err != nil {
-		Log.Error(err)
+		Log.Error(err.Error())
 		os.Exit(1)
 	}
-}
-
-func initSecret(prefix string) (string, error) {
-	key, ok := os.LookupEnv(prefix)
-	if ok {
-		return key, nil
-	}
-	file, ok := os.LookupEnv(fmt.Sprintf("%s_FILE", prefix)
-	if !ok {
-		return "", fmt.Errorf("%s or %s_FILE must be set", prefix, prefix)
-	}
-	raw, err := os.ReadFile(file)
-	if err != nil {
-		return "", fmt.Errorf("read %s: %w", APIKeyFile, err)
-	}
-	return raw, nil
 }

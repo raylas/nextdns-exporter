@@ -1,7 +1,9 @@
 package util
 
 import (
+	"fmt"
 	"os"
+	"strings"
 )
 
 // Return the value of an environment variable,
@@ -12,4 +14,21 @@ func DefaultEnv(key, usual string) string {
 		return usual
 	}
 	return value
+}
+
+// initSecret returns secret either from env variable or from a file
+func initSecret(prefix string) (string, error) {
+	key, ok := os.LookupEnv(prefix)
+	if ok {
+		return key, nil
+	}
+	file, ok := os.LookupEnv(fmt.Sprintf("%s_FILE", prefix))
+	if !ok {
+		return "", fmt.Errorf("%s or %s_FILE must be set", prefix, prefix)
+	}
+	raw, err := os.ReadFile(file)
+	if err != nil {
+		return "", fmt.Errorf("read %s_FILE: %w", prefix, err)
+	}
+	return strings.TrimSpace(string(raw)), nil
 }
