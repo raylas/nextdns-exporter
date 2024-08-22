@@ -1,5 +1,11 @@
 builds:
-- goos:
+- env:
+  - CGO_ENABLED=0
+  ldflags:
+  - -extldflags "-static"
+  flags:
+  - -trimpath
+  goos:
   - linux
   - darwin
   goarch:
