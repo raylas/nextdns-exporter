@@ -1,1 +1,75 @@
-module fixtures
+{
+    "data": {
+        "id": "4d4270",
+        "fingerprint": "fp6975362082910ed9",
+        "name": "Example Profile",
+        "setup": {
+            "ipv4": [],
+            "ipv6": [],
+            "linkedIp": {},
+            "dnscrypt": ""
+        },
+        "security": {
+            "threatIntelligenceFeeds": true,
+            "aiThreatDetection": false,
+            "googleSafeBrowsing": true,
+            "cryptojacking": true,
+            "dnsRebinding": false,
+            "idnHomographs": true,
+            "typosquatting": true,
+            "dga": true,
+            "nrd": false,
+            "ddns": false,
+            "parking": true,
+            "csam": true,
+            "tlds": []
+        },
+        "privacy": {
+            "disguisedTrackers": true,
+            "allowAffiliate": true,
+            "blocklists": [],
+            "natives": []
+        },
+        "parentalControl": {
+            "safeSearch": false,
+            "youtubeRestrictedMode": false,
+            "blockBypass": false,
+            "services": [],
+            "categories": [
+                {
+                    "id": "porn",
+                    "recreation": false,
+                    "active": true
+                }
+            ],
+            "recreation": {
+                "times": {},
+                "timezone": null
+            }
+        },
+        "settings": {
+            "logs": {
+                "enabled": true,
+                "drop": {
+                    "ip": false,
+                    "domain": false
+                },
+                "retention": 31536000,
+                "location": "us"
+            },
+            "blockPage": {
+                "enabled": true
+            },
+            "performance": {
+                "ecs": true,
+                "cacheBoost": false,
+                "cnameFlattening": true
+            },
+            "bav": false,
+            "web3": true
+        },
+        "denylist": [],
+        "allowlist": [],
+        "rewrites": []
+    }
+}

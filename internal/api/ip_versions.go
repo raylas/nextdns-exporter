@@ -27,7 +27,7 @@ type IPVersionMetric struct {
 }
 
 func (c Client) CollectIPVersions() (*IPVersionsMetrics, error) {
-	ipVersionsURL := fmt.Sprintf("%s/profiles/%s/analytics/ipVersions", c.url, c.profile)
+	ipVersionsURL := fmt.Sprintf("%s/profiles/%s/analytics/ipVersions", c.url, c.Profile)
 
 	ipVersionsResponse := IPVersionsResponse{}
 	metrics := IPVersionsMetrics{}
