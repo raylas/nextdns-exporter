@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -10,10 +11,15 @@ import (
 	"github.com/raylas/nextdns-exporter/internal/util"
 )
 
-var version = "dev" // Set by goreleaser.
+var (
+	version = "dev" // Set by goreleaser.
+)
 
 type exporter struct {
 	profile, apiKey string
+
+	// Build Information.
+	buildInfo *prometheus.Gauge
 
 	// Totaled metrics.
 	totalQueries        *prometheus.Desc
@@ -40,64 +46,81 @@ func newExporter(profile, apiKey string) *exporter {
 		totalQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "queries", "total"),
 			"Total number of queries.",
-			[]string{"profile"}, nil,
+			[]string{"profile", "profile_name"}, nil,
 		),
 		totalAllowedQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "allowed_queries", "total"),
 			"Total number of allowed queries.",
-			[]string{"profile"}, nil,
+			[]string{"profile", "profile_name"}, nil,
 		),
 		totalBlockedQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "blocked_queries", "total"),
 			"Total number of blocked queries.",
-			[]string{"profile"}, nil,
+			[]string{"profile", "profile_name"}, nil,
 		),
 
 		// Detailed metrics.
 		blockedQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "blocked", "queries"),
 			"Number of blocked queries per domain.",
-			[]string{"profile", "domain", "root", "tracker"}, nil,
+			[]string{"profile", "profile_name", "domain", "root", "tracker"}, nil,
 		),
 		deviceQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "device", "queries"),
 			"Number of queries per device.",
-			[]string{"profile", "id", "name", "model", "local_ip"}, nil,
+			[]string{"profile", "profile_name", "id", "name", "model", "local_ip"}, nil,
 		),
 		protocolQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "protocol", "queries"),
 			"Number of queries per protocol.",
-			[]string{"profile", "protocol"}, nil,
+			[]string{"profile", "profile_name", "protocol"}, nil,
 		),
 		typeQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "type", "queries"),
 			"Number of queries per type.",
-			[]string{"profile", "type", "name"}, nil,
+			[]string{"profile", "profile_name", "type", "name"}, nil,
 		),
 		ipVersionQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "ip_version", "queries"),
 			"Number of queries per IP version.",
-			[]string{"profile", "version"}, nil,
+			[]string{"profile", "profile_name", "version"}, nil,
 		),
 		dnssecQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "dnssec", "queries"),
 			"Number of DNSSEC and non-DNSSEC queries.",
-			[]string{"profile", "validated"}, nil,
+			[]string{"profile", "profile_name", "validated"}, nil,
 		),
 		encryptedQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "encrypted", "queries"),
 			"Number of encrypted and unencrypted queries.",
-			[]string{"profile", "encrypted"}, nil,
+			[]string{"profile", "profile_name", "encrypted"}, nil,
 		),
 		destinationQueries: prometheus.NewDesc(
 			prometheus.BuildFQName(util.Namespace, "destination", "queries"),
 			"Number of queries per geographic destination.",
-			[]string{"profile", "code", "name"}, nil,
+			[]string{"profile", "profile_name", "code", "name"}, nil,
 		),
 	}
 }
 
+func BuildInfoCollector() prometheus.Collector {
+	return prometheus.NewGaugeFunc(
+		prometheus.GaugeOpts{
+			Namespace: util.Namespace,
+			Name:      "build_info",
+			Help:      "Build information about NextDNS exporter.",
+			ConstLabels: prometheus.Labels{
+				"version": version,
+			},
+		},
+		func() float64 {
+			return 1
+		},
+	)
+}
+
 func (e *exporter) Describe(ch chan<- *prometheus.Desc) {
+
 	// Totaled metrics.
 	ch <- e.totalQueries
 	ch <- e.totalAllowedQueries
@@ -115,7 +138,20 @@ func (e *exporter) Describe(ch chan<- *prometheus.Desc) {
 }
 
 func (e *exporter) Collect(ch chan<- prometheus.Metric) {
-	c := api.NewClient(util.BaseURL, e.profile, e.apiKey)
+	clients := make(map[string]api.Client)
+	if strings.Contains(e.profile, ",") {
+		for _, profile := range strings.Split(e.profile, ",") {
+			clients[profile] = api.NewClient(util.BaseURL, profile, e.apiKey)
+		}
+	} else {
+		clients[e.profile] = api.NewClient(util.BaseURL, e.profile, e.apiKey)
+	}
+	for _, client := range clients {
+		e.collectProfileMetrics(client, ch)
+	}
+}
+
+func (e *exporter) collectProfileMetrics(c api.Client, ch chan<- prometheus.Metric) {
 
 	// Totaled metrics.
 	status, err := c.CollectStatus()
@@ -123,9 +159,9 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		util.Log.Error("error collecting status data", "error", err)
 		return
 	}
-	ch <- prometheus.MustNewConstMetric(e.totalQueries, prometheus.GaugeValue, status.TotalQueries, e.profile)
-	ch <- prometheus.MustNewConstMetric(e.totalAllowedQueries, prometheus.GaugeValue, status.AllowedQueries, e.profile)
-	ch <- prometheus.MustNewConstMetric(e.totalBlockedQueries, prometheus.GaugeValue, status.BlockedQueries, e.profile)
+	ch <- prometheus.MustNewConstMetric(e.totalQueries, prometheus.GaugeValue, status.TotalQueries, c.Profile, c.ProfileName)
+	ch <- prometheus.MustNewConstMetric(e.totalAllowedQueries, prometheus.GaugeValue, status.AllowedQueries, c.Profile, c.ProfileName)
+	ch <- prometheus.MustNewConstMetric(e.totalBlockedQueries, prometheus.GaugeValue, status.BlockedQueries, c.Profile, c.ProfileName)
 
 	// Detailed metrics.
 	domains, err := c.CollectDomains()
@@ -137,7 +173,7 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			e.blockedQueries,
 			prometheus.GaugeValue,
-			domain.Queries, e.profile, domain.Domain, domain.Root, domain.Tracker,
+			domain.Queries, c.Profile, c.ProfileName, domain.Domain, domain.Root, domain.Tracker,
 		)
 	}
 
@@ -150,7 +186,7 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			e.deviceQueries,
 			prometheus.GaugeValue,
-			device.Queries, e.profile, device.ID, device.Name, device.Model, device.LocalIP,
+			device.Queries, c.Profile, c.ProfileName, device.ID, device.Name, device.Model, device.LocalIP,
 		)
 	}
 
@@ -163,7 +199,7 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			e.protocolQueries,
 			prometheus.GaugeValue,
-			protocol.Queries, e.profile, protocol.Protocol,
+			protocol.Queries, c.Profile, c.ProfileName, protocol.Protocol,
 		)
 	}
 
@@ -176,7 +212,7 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			e.typeQueries,
 			prometheus.GaugeValue,
-			queryType.Queries, e.profile, queryType.Type, queryType.Name,
+			queryType.Queries, c.Profile, c.ProfileName, queryType.Type, queryType.Name,
 		)
 	}
 
@@ -189,7 +225,7 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			e.ipVersionQueries,
 			prometheus.GaugeValue,
-			ipVersion.Queries, e.profile, ipVersion.Version,
+			ipVersion.Queries, c.Profile, c.ProfileName, ipVersion.Version,
 		)
 	}
 
@@ -202,7 +238,7 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			e.dnssecQueries,
 			prometheus.GaugeValue,
-			data.Queries, e.profile, data.Validated,
+			data.Queries, c.Profile, c.ProfileName, data.Validated,
 		)
 	}
 
@@ -215,7 +251,7 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			e.encryptedQueries,
 			prometheus.GaugeValue,
-			data.Queries, e.profile, data.Encrypted,
+			data.Queries, c.Profile, c.ProfileName, data.Encrypted,
 		)
 	}
 
@@ -228,14 +264,14 @@ func (e *exporter) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(
 			e.destinationQueries,
 			prometheus.GaugeValue,
-			destination.Queries, e.profile, destination.Code, destination.Name,
+			destination.Queries, c.Profile, c.ProfileName, destination.Code, destination.Name,
 		)
 	}
 }
 
 func main() {
 	exporter := newExporter(util.Profile, util.APIKey)
-	prometheus.MustRegister(exporter)
+	prometheus.MustRegister(exporter, BuildInfoCollector())
 
 	util.Log.Info("starting exporter", "version", version, "port", util.Port, "path", util.MetricsPath)
 	http.Handle(util.MetricsPath, promhttp.Handler())

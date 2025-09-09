@@ -29,7 +29,7 @@ type DestinationMetric struct {
 }
 
 func (c Client) CollectDestinations() (*DestinationsMetrics, error) {
-	destinationsURL := fmt.Sprintf("%s/profiles/%s/analytics/destinations", c.url, c.profile)
+	destinationsURL := fmt.Sprintf("%s/profiles/%s/analytics/destinations", c.url, c.Profile)
 
 	destinationsResponse := DestinationsResponse{}
 	metrics := DestinationsMetrics{}

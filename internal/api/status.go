@@ -23,7 +23,7 @@ type StatusMetrics struct {
 }
 
 func (c Client) CollectStatus() (*StatusMetrics, error) {
-	statusesURL := fmt.Sprintf("%s/profiles/%s/analytics/status", c.url, c.profile)
+	statusesURL := fmt.Sprintf("%s/profiles/%s/analytics/status", c.url, c.Profile)
 
 	statusResponse := StatusResponse{}
 	metrics := StatusMetrics{}

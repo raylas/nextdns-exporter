@@ -31,7 +31,7 @@ type DomainMetric struct {
 }
 
 func (c Client) CollectDomains() (*DomainsMetrics, error) {
-	domainsURL := fmt.Sprintf("%s/profiles/%s/analytics/domains", c.url, c.profile)
+	domainsURL := fmt.Sprintf("%s/profiles/%s/analytics/domains", c.url, c.Profile)
 
 	domainsResponse := DomainsResponse{}
 	metrics := DomainsMetrics{}
