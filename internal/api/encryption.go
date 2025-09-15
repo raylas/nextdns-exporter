@@ -27,7 +27,7 @@ type EncryptionMetric struct {
 }
 
 func (c Client) CollectEncryption() (*EncryptionMetrics, error) {
-	encryptionURL := fmt.Sprintf("%s/profiles/%s/analytics/encryption", c.url, c.profile)
+	encryptionURL := fmt.Sprintf("%s/profiles/%s/analytics/encryption", c.url, c.Profile)
 
 	encryptionResponse := EncryptionResponse{}
 	metrics := EncryptionMetrics{}

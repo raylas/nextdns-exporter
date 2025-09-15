@@ -32,7 +32,7 @@ type DeviceMetric struct {
 }
 
 func (c Client) CollectDevices() (*DevicesMetrics, error) {
-	devicesURL := fmt.Sprintf("%s/profiles/%s/analytics/devices", c.url, c.profile)
+	devicesURL := fmt.Sprintf("%s/profiles/%s/analytics/devices", c.url, c.Profile)
 
 	devicesResponse := DevicesResponse{}
 	metrics := DevicesMetrics{}

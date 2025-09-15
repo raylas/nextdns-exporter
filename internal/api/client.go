@@ -1,21 +1,30 @@
 package api
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/raylas/nextdns-exporter/internal/util"
 )
 
 type Client struct {
-	url     string
-	profile string
-	apiKey  string
+	url         string
+	Profile     string
+	apiKey      string
+	ProfileName string
 }
 
 func NewClient(url, profile, apiKey string) Client {
-	return Client{url, profile, apiKey}
+	newClient := Client{url, profile, apiKey, ""}
+	profileInfo, err := newClient.ProfileInfo()
+	if err != nil {
+		return newClient
+	}
+	newClient.ProfileName = profileInfo.Name
+	return newClient
 }
 
 func (c Client) Request(uri string, params url.Values) ([]byte, error) {
@@ -33,13 +42,17 @@ func (c Client) Request(uri string, params url.Values) ([]byte, error) {
 		return nil, err
 	}
 	req.Header.Set("X-Api-Key", c.apiKey)
-	req.URL.RawQuery = query.Encode()
+	// The profiles endpoint does not accept query parameters.
+	if !strings.HasSuffix(uri, fmt.Sprintf("profiles/%s", c.Profile)) {
+		req.URL.RawQuery = query.Encode()
+	}
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		util.Log.Error("error making request", "error", err)
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {

@@ -27,7 +27,7 @@ type DNSSECMetric struct {
 }
 
 func (c Client) CollectDNSSEC() (*DNSSECMetrics, error) {
-	dnssecURL := fmt.Sprintf("%s/profiles/%s/analytics/dnssec", c.url, c.profile)
+	dnssecURL := fmt.Sprintf("%s/profiles/%s/analytics/dnssec", c.url, c.Profile)
 
 	dnssecResponse := DNSSECResponse{}
 	metrics := DNSSECMetrics{}
