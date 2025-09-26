@@ -26,7 +26,7 @@ type ProtocolMetric struct {
 }
 
 func (c Client) CollectProtocols() (*ProtocolsMetrics, error) {
-	protocolsURL := fmt.Sprintf("%s/profiles/%s/analytics/protocols", c.url, c.profile)
+	protocolsURL := fmt.Sprintf("%s/profiles/%s/analytics/protocols", c.url, c.Profile)
 
 	protocolsResponse := ProtocolsResponse{}
 	metrics := ProtocolsMetrics{}

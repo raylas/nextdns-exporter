@@ -29,7 +29,7 @@ type QueryTypeMetric struct {
 }
 
 func (c Client) CollectQueryTypes() (*QueryTypesMetrics, error) {
-	queryTypesURL := fmt.Sprintf("%s/profiles/%s/analytics/queryTypes", c.url, c.profile)
+	queryTypesURL := fmt.Sprintf("%s/profiles/%s/analytics/queryTypes", c.url, c.Profile)
 
 	queryTypesResponse := QueryTypesResponse{}
 	metrics := QueryTypesMetrics{}

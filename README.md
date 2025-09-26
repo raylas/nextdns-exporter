@@ -12,7 +12,7 @@ A [Prometheus exporter](https://prometheus.io/docs/instrumenting/exporters/) for
 - `METRICS_PATH` (default: `/metrics`)
 - `NEXTDNS_RESULT_WINDOW` (default: `-5m`)
 - `NEXTDNS_RESULT_LIMIT` (default: `50`)
-- `NEXTDNS_PROFILE` (required: [docs](https://nextdns.github.io/api/#profile))
+- `NEXTDNS_PROFILE` (required: [docs](https://nextdns.github.io/api/#profile). You can provide multiple profiles separated by commas)
 - `NEXTDNS_API_KEY` (required: [docs](https://nextdns.github.io/api/#authentication))
 
 For most accurate data, the scrape interval _should_ match the value set via `NEXTDNS_RESULT_WINDOW`.
