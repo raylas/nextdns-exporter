@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/raylas/nextdns-exporter/internal/util"
+	"go.rmdd.net/nextdns-exporter/internal/util"
 )
 
 type DomainsResponse struct {

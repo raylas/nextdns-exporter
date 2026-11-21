@@ -7,8 +7,8 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/raylas/nextdns-exporter/internal/api"
-	"github.com/raylas/nextdns-exporter/internal/util"
+	"go.rmdd.net/nextdns-exporter/internal/api"
+	"go.rmdd.net/nextdns-exporter/internal/util"
 )
 
 var (

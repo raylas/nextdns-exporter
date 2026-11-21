@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/raylas/nextdns-exporter/internal/util"
+	"go.rmdd.net/nextdns-exporter/internal/util"
 )
 
 type Client struct {
