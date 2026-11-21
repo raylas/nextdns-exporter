@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/raylas/nextdns-exporter/internal/util"
+	"go.rmdd.net/nextdns-exporter/internal/util"
 )
 
 type ProfileInfo struct {

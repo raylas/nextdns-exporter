@@ -11,7 +11,7 @@ services:
       NEXTDNS_RESULT_WINDOW: -1m
   
   prometheus:
-    image: prom/prometheus:v2.40.3
+    image: prom/prometheus:v3.16.0
     restart: unless-stopped
     ports:
     - 9090:9090
@@ -19,7 +19,7 @@ services:
     - ./grafana/prometheus.yaml:/etc/prometheus/prometheus.yml
   
   grafana:
-    image: grafana/grafana-oss:9.2.6
+    image: grafana/grafana:13.3.1
     restart: unless-stopped
     ports:
     - 3000:3000

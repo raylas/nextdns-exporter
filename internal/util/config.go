@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"golang.org/x/exp/slog"
+	"log/slog"
 )
 
 const (
